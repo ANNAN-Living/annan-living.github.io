@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ANNAN Living</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=Montserrat:wght@300;400;500;600&display=swap">
+<style>
+/* Asettelu: ohut ilmoituspalkki, keskitetty logo, iso kampanjakuva-alue, väljä tuoteruudukko ilman kehyksiä.
+   Tietoisesti yksi vaalea ilme kuten luksusbrändeillä. */
+:root {
+  --bg: #ffffff;
+  --ink: #111111;
+  --muted: #77736e;
+  --line: #e7e4e0;
+  --stone-1: #e9e4dd;
+  --stone-2: #ded6cc;
+  --stone-3: #e4e2de;
+  --stone-4: #d9d3cf;
+  --stone-5: #e8e1d8;
+  --font-display: "EB Garamond", Garamond, "Times New Roman", serif;
+  --font-sans: "Montserrat", "Century Gothic", "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-sans); font-weight: 400; font-size: 14px; line-height: 1.65;
+}
+img { max-width: 100%; display: block; }
+[hidden] { display: none !important; }
+button { font: inherit; color: inherit; text-transform: inherit; letter-spacing: inherit; cursor: pointer; background: none; border: 0; padding: 0; }
+a { color: inherit; }
+button:focus-visible, a:focus-visible, select:focus-visible { outline: 1px solid var(--ink); outline-offset: 3px; }
+.gutter {
+  padding-left: max(24px, env(safe-area-inset-left, 0px));
+  padding-right: max(24px, env(safe-area-inset-right, 0px));
+}
+.short { display: none; }
+.label { font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 500; }
+
+/* Yläosa */
+.announce { background: var(--ink); color: var(--bg); text-align: center; padding-block: 8px; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); border-bottom: 1px solid var(--line); }
+.bar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding-block: 22px; gap: 16px; }
+.wordmark {
+  grid-column: 2; font-family: var(--font-sans); font-weight: 600; font-size: 32px;
+  letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; margin-right: -0.1em; white-space: nowrap; line-height: 1;
+}
+.bar .right { grid-column: 3; justify-self: end; white-space: nowrap; }
+nav.cats { display: flex; justify-content: center; gap: 8px 32px; flex-wrap: wrap; padding-bottom: 16px; }
+nav.cats button { padding-block: 4px; border-bottom: 1px solid transparent; }
+nav.cats button[aria-pressed="true"] { border-bottom-color: var(--ink); }
+nav.cats button:hover { border-bottom-color: var(--muted); }
+
+/* Kampanja */
+.hero {
+  position: relative; min-height: min(78vh, 720px); display: grid; align-items: end;
+  background:
+    radial-gradient(120% 90% at 70% 20%, #f4f0ea 0%, transparent 55%),
+    linear-gradient(160deg, var(--stone-1), var(--stone-2));
+  overflow: hidden;
+}
+.hero::after {
+  content: ""; position: absolute; right: 8%; top: 12%; width: min(34vw, 380px); aspect-ratio: 3 / 4;
+  background: linear-gradient(175deg, rgb(255 255 255 / 0.55), rgb(255 255 255 / 0.05));
+  border-radius: 200px 200px 0 0;
+}
+.hero .hero-copy { position: relative; z-index: 1; padding-block: 64px; display: grid; gap: 18px; max-width: 640px; }
+.hero h1 {
+  margin: 0; font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(42px, 6.5vw, 84px); line-height: 1.05; letter-spacing: -0.01em; text-wrap: balance;
+}
+.hero p { margin: 0; max-width: 44ch; color: #3d3a36; }
+.textlink { display: inline-block; justify-self: start; border-bottom: 1px solid currentColor; padding-bottom: 2px; text-decoration: none; }
+
+/* Tuotteet */
+.section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-block: 72px 28px; flex-wrap: wrap; }
+.section-head h2 { margin: 0; font-family: var(--font-sans); font-weight: 300; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.2; letter-spacing: 0.12em; text-transform: uppercase; }
+.section-head h2 b { font-weight: 600; }
+.count { color: var(--muted); font-variant-numeric: tabular-nums; }
+.grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 48px 12px; padding-bottom: 96px; }
+@media (max-width: 1000px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 720px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 8px; } }
+.product { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; align-content: start; min-width: 0; }
+.ph { position: relative; aspect-ratio: 3 / 4; max-width: 100%; overflow: hidden; }
+.ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ph .shape {
+  position: absolute; left: 22%; right: 22%; top: 16%; bottom: 16%;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.5), rgb(255 255 255 / 0.12));
+  border-radius: 999px 999px 4px 4px; transition: transform 0.6s ease;
+}
+.product:hover .shape { transform: scale(1.04); }
+.ph .badge { position: absolute; top: 12px; left: 12px; }
+.quick {
+  position: absolute; left: 10px; right: 10px; bottom: 10px; display: flex; gap: 6px;
+  opacity: 0; transform: translateY(6px); transition: opacity 0.25s, transform 0.25s;
+}
+.product:hover .quick, .product:focus-within .quick { opacity: 1; transform: none; }
+@media (hover: none) { .quick { opacity: 1; transform: none; } }
+.quick select {
+  flex: 0 0 auto; background: rgb(255 255 255 / 0.92); color: var(--ink); border: 0; padding: 9px 6px;
+  font: inherit; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.add {
+  flex: 1 1 auto; background: rgb(255 255 255 / 0.92); color: var(--ink); padding: 10px 8px; text-align: center; text-decoration: none;
+  font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 400;
+}
+.add:hover { background: var(--ink); color: var(--bg); }
+.info { display: grid; gap: 2px; }
+.info h3 { overflow-wrap: anywhere; hyphens: auto; margin: 0; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; line-height: 1.5; }
+.info .desc { color: var(--muted); font-size: 13px; margin: 0; }
+.price { font-variant-numeric: tabular-nums; font-size: 13px; }
+
+/* Brändiosio */
+.story { border-top: 1px solid var(--line); }
+.story .inner { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px; padding-block: 96px; align-items: center; }
+@media (max-width: 720px) { .story .inner { grid-template-columns: 1fr; padding-block: 64px; } }
+.story blockquote { margin: 0; font-family: var(--font-display); font-size: clamp(28px, 3.6vw, 42px); line-height: 1.25; }
+.story .facts { display: grid; gap: 22px; }
+.story .facts div { display: grid; gap: 4px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+.story .facts span:last-child { color: var(--muted); }
+
+footer { background: var(--ink); color: #cfcac4; }
+footer .inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px 32px; padding-block: 40px; }
+footer .wm { color: var(--bg); letter-spacing: 0.1em; text-transform: uppercase; font-size: 18px; font-weight: 600; }
+
+/* Ostoskori */
+.scrim { position: fixed; inset: 0; background: rgb(17 17 17 / 0.3); z-index: 40; }
+.drawer {
+  position: fixed; top: 0; right: 0; bottom: 0; width: min(440px, 100%); z-index: 50; background: var(--bg);
+  display: grid; grid-template-rows: auto 1fr auto;
+  padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); padding-right: env(safe-area-inset-right, 0px);
+}
+.drawer header { display: flex; justify-content: space-between; align-items: center; padding: 26px 28px; border-bottom: 1px solid var(--line); }
+.lines { overflow-y: auto; padding: 0 28px; align-content: start; display: grid; }
+.line { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding-block: 20px; border-bottom: 1px solid var(--line); }
+.line .name { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; min-width: 0; }
+.line .meta { color: var(--muted); font-size: 13px; }
+.qty { display: inline-flex; align-items: center; gap: 12px; font-variant-numeric: tabular-nums; }
+.qty button { width: 24px; height: 24px; border: 1px solid var(--line); }
+.empty { color: var(--muted); padding-block: 32px; }
+.totals { padding: 22px 28px 28px; border-top: 1px solid var(--line); display: grid; gap: 8px; }
+.totals .row { display: flex; justify-content: space-between; font-variant-numeric: tabular-nums; }
+.totals .sum { font-weight: 400; font-size: 16px; padding-top: 6px; }
+.checkout { margin-top: 14px; background: var(--ink); color: var(--bg); padding: 16px; letter-spacing: 0.18em; text-transform: uppercase; font-size: 12px; }
+.checkout:disabled { opacity: 0.35; cursor: default; }
+.order-box { display: grid; gap: 10px; margin-top: 10px; }
+.order-box p { margin: 0; font-size: 13px; color: var(--muted); }
+.order-box textarea { width: 100%; min-height: 120px; font: inherit; font-size: 13px; color: var(--ink); background: var(--bg); border: 1px solid var(--line); padding: 10px; }
+.copy { border: 1px solid var(--ink); padding: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-size: 11px; }
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 12px 22px; z-index: 60; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap; max-width: calc(100% - 32px); overflow: hidden; text-overflow: ellipsis; }
+
+@media (max-width: 720px) {
+  .bar { padding-block: 16px; }
+  .full { display: none; }
+  .short { display: inline; }
+  .bar { grid-template-columns: 1fr auto; }
+  .wordmark { grid-column: 1; justify-self: start; font-size: 20px; letter-spacing: 0.08em; margin-right: 0; }
+  .bar .right { grid-column: 2; }
+  nav.cats { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; gap: 22px; scrollbar-width: none; }
+  nav.cats button { white-space: nowrap; }
+  .hero { min-height: 520px; }
+  .hero::after { width: 46vw; right: 6%; top: 8%; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .drawer { animation: slide 0.3s cubic-bezier(.2,.7,.2,1); }
+  @keyframes slide { from { transform: translateX(32px); opacity: 0.5; } }
+}
+@media (prefers-reduced-motion: reduce) { .shape, .quick { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="announce label" id="announce"></div>
+<header class="top">
+  <div class="bar gutter">
+    <a class="wordmark" href="#" id="logo">ANNAN Living</a>
+    <button class="right label" id="openCart" type="button"><span class="full">Ostoskori</span><span class="short">Kori</span> (<span id="cartCount">0</span>)</button>
+  </div>
+  <nav class="cats gutter label" id="filters" aria-label="Tuoteryhmät"></nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-copy gutter">
+      <span class="label">Uusi mallisto</span>
+      <h1 id="tagline">Pehmeitä asioita kotipäiviin</h1>
+      <p id="introText"></p>
+      <a class="textlink label" href="#mallisto">Tutustu mallistoon</a>
+    </div>
+  </section>
+
+  <section id="mallisto" class="gutter">
+    <div class="section-head">
+      <h2 id="gridTitle">Koko <b>mallisto</b></h2>
+      <span class="count label" id="count"></span>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="story">
+    <div class="inner gutter">
+      <blockquote>Hitaita aamuja, pitkiä iltoja ja kangas, jota ei halua riisua.</blockquote>
+      <div class="facts">
+        <div><span class="label">Materiaalit</span><span>Pellava, luomupuuvilla, modaali ja villa</span></div>
+        <div><span class="label">Toimitus</span><span id="factShip"></span></div>
+        <div><span class="label">Asiakaspalvelu</span><span id="factMail"></span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="inner gutter">
+    <span class="wm" id="footName">ANNAN Living</span>
+    <span class="label" id="footCopy"></span>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" hidden aria-label="Ostoskori">
+  <header>
+    <span class="label">Ostoskori</span>
+    <button class="label" id="closeCart" type="button">Sulje</button>
+  </header>
+  <div class="lines" id="lines"></div>
+  <div class="totals">
+    <div class="row"><span>Tuotteet</span><span id="subtotal">0,00 €</span></div>
+    <div class="row"><span>Toimitus</span><span id="shipping">0,00 €</span></div>
+    <div class="row sum"><span>Yhteensä</span><span id="total">0,00 €</span></div>
+    <button class="checkout" id="checkout" type="button">Siirry tilaamaan</button>
+    <div class="order-box" id="orderBox" hidden>
+      <p>Verkkomaksu otetaan käyttöön pian. Siihen asti kopioi tilauksesi ja lähetä se sähköpostilla osoitteeseen <strong id="orderMail"></strong>. Lähetämme maksuohjeet vastauksena.</p>
+      <textarea id="orderText" readonly></textarea>
+      <button class="copy" id="copyOrder" type="button">Kopioi tilaus</button>
+    </div>
+  </div>
+</aside>
+<div class="toast" id="toast" hidden></div>
+
+<script src="tuotteet.js"></script>
+<script>
+(function () {
+  var K = window.KAUPPA;
+  var A = K.asetukset;
+  var euro = new Intl.NumberFormat("fi-FI", { style: "currency", currency: "EUR" });
+  var tones = ["--stone-1", "--stone-2", "--stone-3", "--stone-4", "--stone-5"];
+  var $ = function (id) { return document.getElementById(id); };
+
+  // Kaupan tiedot asetuksista
+  document.title = A.nimi;
+  $("logo").textContent = A.nimi;
+  $("footName").textContent = A.nimi;
+  $("footCopy").textContent = "© " + new Date().getFullYear() + " " + A.nimi + " · " + A.sahkoposti;
+  $("tagline").textContent = A.iskulause;
+  $("introText").textContent = A.esittely;
+  $("orderMail").textContent = A.sahkoposti;
+  $("factMail").textContent = A.sahkoposti;
+  $("announce").textContent = "Ilmainen toimitus yli " + euro.format(A.ilmainenToimitusAlkaen) + " tilauksiin";
+  $("factShip").textContent = euro.format(A.toimitusmaksu) + ", yli " + euro.format(A.ilmainenToimitusAlkaen) + " tilauksiin ilmainen";
+
+  // Ostoskori (tallentuu selaimeen)
+  var cart = [];
+  try { cart = JSON.parse(localStorage.getItem("ostoskori") || "[]"); } catch (e) { cart = []; }
+  function save() { try { localStorage.setItem("ostoskori", JSON.stringify(cart)); } catch (e) {} }
+  function find(id) { return K.tuotteet.filter(function (p) { return p.id === id; })[0]; }
+
+  // Tuoteryhmät
+  var active = "Kaikki";
+  function renderFilters() {
+    var f = $("filters"); f.innerHTML = "";
+    ["Kaikki"].concat(K.kategoriat).forEach(function (c) {
+      var b = document.createElement("button");
+      b.type = "button"; b.textContent = c;
+      b.setAttribute("aria-pressed", String(c === active));
+      b.onclick = function () {
+        active = c; renderFilters(); renderGrid();
+        $("mallisto").scrollIntoView({ behavior: "smooth", block: "start" });
+      };
+      f.appendChild(b);
+    });
+  }
+
+  function renderGrid() {
+    var g = $("grid"); g.innerHTML = "";
+    var list = K.tuotteet.filter(function (p) { return active === "Kaikki" || p.kategoria === active; });
+    $("gridTitle").innerHTML = active === "Kaikki" ? "Koko <b>mallisto</b>" : "<b>" + esc(active) + "</b>";
+    $("count").textContent = list.length + " tuotetta";
+    list.forEach(function (p) {
+      var ti = Math.max(0, K.kategoriat.indexOf(p.kategoria)) % tones.length;
+      var el = document.createElement("article");
+      el.className = "product";
+      var media = p.kuva
+        ? '<img src="' + esc(p.kuva) + '" alt="' + esc(p.nimi) + '" loading="lazy">'
+        : '<span class="shape" aria-hidden="true"></span>';
+      var sizes = p.koot && p.koot.length
+        ? '<select aria-label="Koko" id="koko-' + p.id + '">' + p.koot.map(function (k) { return "<option>" + esc(k) + "</option>"; }).join("") + "</select>"
+        : "";
+      var btn = p.maksulinkki
+        ? '<a class="add" href="' + esc(p.maksulinkki) + '" target="_blank" rel="noopener">Osta</a>'
+        : '<button class="add" type="button" data-id="' + p.id + '">Lisää koriin</button>';
+      el.innerHTML =
+        '<div class="ph" style="background:var(' + tones[ti] + ')">' + media +
+          (p.uutuus ? '<span class="badge label">Uutuus</span>' : "") +
+          '<div class="quick">' + sizes + btn + "</div></div>" +
+        '<div class="info"><h3>' + esc(p.nimi) + '</h3><p class="desc">' + esc(p.kuvaus) + '</p><span class="price">' + euro.format(p.hinta) + "</span></div>";
+      g.appendChild(el);
+    });
+  }
+
+  $("grid").addEventListener("click", function (e) {
+    var b = e.target.closest("button.add"); if (!b) return;
+    var id = b.getAttribute("data-id");
+    var sel = $("koko-" + id);
+    var koko = sel ? sel.value : "";
+    var line = cart.filter(function (l) { return l.id === id && l.koko === koko; })[0];
+    if (line) line.maara++; else cart.push({ id: id, koko: koko, maara: 1 });
+    save(); renderCart(); toast("Lisätty koriin: " + find(id).nimi + (koko ? ", " + koko : ""));
+  });
+
+  function totals() {
+    var sub = cart.reduce(function (s, l) { var p = find(l.id); return s + (p ? p.hinta * l.maara : 0); }, 0);
+    var ship = sub === 0 || sub >= A.ilmainenToimitusAlkaen ? 0 : A.toimitusmaksu;
+    return { sub: sub, ship: ship, total: sub + ship };
+  }
+
+  function renderCart() {
+    cart = cart.filter(function (l) { return find(l.id) && l.maara > 0; });
+    $("cartCount").textContent = cart.reduce(function (s, l) { return s + l.maara; }, 0);
+    var box = $("lines"); box.innerHTML = "";
+    if (!cart.length) box.innerHTML = '<p class="empty">Ostoskori on tyhjä.</p>';
+    cart.forEach(function (l, i) {
+      var p = find(l.id);
+      var el = document.createElement("div"); el.className = "line";
+      el.innerHTML =
+        '<span class="name">' + esc(p.nimi) + '</span><span class="price">' + euro.format(p.hinta * l.maara) + "</span>" +
+        '<span class="meta">' + (l.koko ? "Koko " + esc(l.koko) + " · " : "") + euro.format(p.hinta) + "</span>" +
+        '<span class="qty"><button type="button" data-i="' + i + '" data-d="-1" aria-label="Vähennä">−</button><span>' + l.maara +
+        '</span><button type="button" data-i="' + i + '" data-d="1" aria-label="Lisää">+</button></span>';
+      box.appendChild(el);
+    });
+    var t = totals();
+    $("subtotal").textContent = euro.format(t.sub);
+    $("shipping").textContent = euro.format(t.ship);
+    $("total").textContent = euro.format(t.total);
+    $("checkout").disabled = !cart.length;
+    if (!cart.length) $("orderBox").hidden = true; else if (!$("orderBox").hidden) $("orderText").value = orderText();
+  }
+
+  $("lines").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-i]"); if (!b) return;
+    cart[+b.dataset.i].maara += +b.dataset.d; save(); renderCart();
+  });
+
+  function orderText() {
+    var t = totals();
+    return "Tilaus, " + A.nimi + "\n\n" + cart.map(function (l) {
+      var p = find(l.id);
+      return l.maara + " × " + p.nimi + (l.koko ? " (koko " + l.koko + ")" : "") + " = " + euro.format(p.hinta * l.maara);
+    }).join("\n") + "\n\nToimitus: " + euro.format(t.ship) + "\nYhteensä: " + euro.format(t.total) +
+      "\n\nNimi:\nToimitusosoite:\nPuhelin:";
+  }
+
+  $("checkout").onclick = function () { $("orderBox").hidden = false; $("orderText").value = orderText(); };
+  $("copyOrder").onclick = function () {
+    var ta = $("orderText");
+    try { navigator.clipboard.writeText(ta.value).then(function () { toast("Tilaus kopioitu"); }, function () { ta.select(); }); }
+    catch (e) { ta.select(); }
+  };
+
+  function openCart() { $("drawer").hidden = false; $("scrim").hidden = false; $("closeCart").focus(); }
+  function closeCart() { $("drawer").hidden = true; $("scrim").hidden = true; }
+  $("openCart").onclick = openCart; $("closeCart").onclick = closeCart; $("scrim").onclick = closeCart;
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeCart(); });
+
+  var tt;
+  function toast(msg) { var t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(tt); tt = setTimeout(function () { t.hidden = true; }, 2200); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+  renderFilters(); renderGrid(); renderCart();
+})();
+</script>
+</body>
+</html>
